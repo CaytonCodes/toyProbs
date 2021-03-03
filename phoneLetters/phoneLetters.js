@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /*
 Letter Combinations of a phone number
 
@@ -17,18 +18,32 @@ Edge Cases: empty input string --> [];
 */
 
 /*
-recursive option: for each character aligning with first letter, append all returned
-  values from thisfunction(input string less first character), to current character
-  issue: this has extra loops through output options.
-  overcome this with closure scope output and an input of preceeding values
-    for each option in first character, call thisFunction(adjust input, current string)
-  stop case: if string is empty return [].
+  Closure scope output array
+  Handle edge case, empty input
 
-  Result: 60ms faster than 100% of js.
+  Helperfunc -- accepts input string and current running string.
+    STOP CASE: if input string is empty,
+      Add current running string to output array
+      return null to force the stop
+
+    assign next input string as current input string less first letter.
+      --this lets us advance through the string with each call
+    assign chars as array of characters available for the first number in current input string
+
+    Iterate through chars
+      recursively call helper function with next input string and the running string with current char appended at end
+
+    return undefined to close out recursive function in way that appeases eslint, not necessary for functionality
+
+  call helper function with original input and empty running string
+
+  return output array
+
+  Result: 60ms. faster than 100% of js.
 
 */
 
-const numberLets = {
+const numberLetters = {
   2: ['a', 'b', 'c'],
   3: ['d', 'e', 'f'],
   4: ['g', 'h', 'i'],
@@ -52,7 +67,7 @@ const letterCombinations = (digits) => {
 
     const firstNum = inputString[0];
     const nextInput = inputString.slice(1);
-    const chars = numberLets[firstNum];
+    const chars = numberLetters[firstNum];
 
     for (let i = 0; i < chars.length; i += 1) {
       helperFunc(nextInput, runningString + chars[i]);
