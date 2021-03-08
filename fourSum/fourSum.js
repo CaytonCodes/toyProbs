@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 /*
 Given an array nums of n integers and an integer target, are there elements a, b, c, and d
 in nums such that a + b + c + d = target? Find all unique quadruplets in the array which
@@ -30,7 +31,7 @@ const fourSum = (nums, target) => {
   const k = 4;
   const res = [];
 
-  const twoSum = (target, startIndex, predVals) => {
+  const twoSum = (twoTarget, startIndex, predVals) => {
     let low = startIndex;
     let high = nums.length - 1;
 
@@ -40,22 +41,22 @@ const fourSum = (nums, target) => {
         decLevel += 1;
       }
       high -= decLevel;
-    }
+    };
 
     const loInc = () => {
       let incLevel = 1;
-      while (nums[low + decLevel] === nums[high]) {
+      while (nums[low + incLevel] === nums[high]) {
         incLevel += 1;
       }
       low += incLevel;
-    }
+    };
 
     while (low < high) {
-      sum = nums[low] + nums[high];
+      const sum = nums[low] + nums[high];
 
-      if (sum < target) {
+      if (sum < twoTarget) {
         loInc();
-      } else if (sum > target) {
+      } else if (sum > twoTarget) {
         hiDec();
       } else {
         res.push([...predVals, nums[low], nums[high]]);
@@ -72,7 +73,18 @@ const fourSum = (nums, target) => {
       return null;
     }
 
+    const nextTarget = newTarget - nums[startIndex];
+    let moved = false;
 
+    for (let i = startIndex; i < nums.length - k; i += 1) {
+      if (moved && nums[i] === nums[i - 1]) {
+        continue;
+      }
+      kDecrementor(newK - 1, nextTarget, startIndex + 1, [...predVals, nums[startIndex]]);
+      moved = true;
+    }
+
+    return undefined;
   };
 
   kDecrementor(k, target, 0, []);
