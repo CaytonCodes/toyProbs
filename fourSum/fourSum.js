@@ -45,7 +45,7 @@ const fourSum = (nums, target) => {
 
     const loInc = () => {
       let incLevel = 1;
-      while (nums[low + incLevel] === nums[high]) {
+      while (nums[low + incLevel] === nums[low]) {
         incLevel += 1;
       }
       low += incLevel;
@@ -73,14 +73,17 @@ const fourSum = (nums, target) => {
       return null;
     }
 
-    const nextTarget = newTarget - nums[startIndex];
     let moved = false;
 
-    for (let i = startIndex; i < nums.length - k; i += 1) {
+    for (let i = startIndex; i <= nums.length - newK; i += 1) {
+      const thisVal = nums[i];
+      const nextTarget = newTarget - thisVal;
+      const nextStart = i + 1;
+
       if (moved && nums[i] === nums[i - 1]) {
         continue;
       }
-      kDecrementor(newK - 1, nextTarget, startIndex + 1, [...predVals, nums[startIndex]]);
+      kDecrementor(newK - 1, nextTarget, nextStart, [...predVals, thisVal]);
       moved = true;
     }
 
