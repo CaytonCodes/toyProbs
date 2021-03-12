@@ -52,6 +52,17 @@ class LinkedList {
     this.length += 1;
     return node;
   }
+
+  findIndex(index) {
+    let currentNode = this.head;
+    for (let i = 1; i <= index; i += 1) {
+      if (currentNode === null) {
+        return null;
+      }
+      currentNode = currentNode.next;
+    }
+    return currentNode;
+  }
 }
 
 module.exports = {
