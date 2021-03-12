@@ -59,6 +59,29 @@ class LinkedList {
     return node;
   }
 
+  // deletes node at input index. input can be 'head', 'tail' or integer index
+  // returns value of deleted node or null
+  delete(index = 'tail') {
+    let deletedVal;
+    if (index === 'tail') { index = this.length - 1; }
+    if (!this.head || index >= this.length) {
+      return null;
+    }
+
+    if (index === 'head' || index === 0) {
+      deletedVal = this.head.value;
+      this.head = this.head.next;
+    } else {
+      const precedingNode = this.findNode(index - 1);
+      const nodeOut = precedingNode.next;
+      deletedVal = nodeOut.value;
+      precedingNode.next = nodeOut.next;
+    }
+
+    this.length -= 1;
+    return deletedVal;
+  }
+
   findNode(index) {
     let currentNode = this.head;
     for (let i = 1; i <= index; i += 1) {
@@ -69,19 +92,33 @@ class LinkedList {
     }
     return currentNode;
   }
+
+  findIndex(value) {
+    // returns index of first instance of node containing input value, or null
+    let currentNode = this.head;
+    let count = 0;
+    while (currentNode) {
+      if (currentNode.value === value) {
+        return count;
+      }
+      count += 1;
+      currentNode = currentNode.next;
+    }
+    return currentNode;
+  }
 }
 
 module.exports = {
   LinkedList,
 };
 
-let list = new LinkedList();
-list.insert(0);
-list.insert(1);
-list.insert(2);
-list.insert(3);
-list.insert(4);
-list.insert(5, 5);
-console.log(list.length);
-console.log(list.findNode(0));
-console.log(list.findNode(8));
+// let list = new LinkedList();
+// list.insert(0);
+// list.insert(1);
+// list.insert(2);
+// list.insert(3);
+// list.insert(4);
+// list.insert(5, 5);
+// console.log(list.delete(2));
+// console.log(list.length);
+// console.log(list.findNode(1));
