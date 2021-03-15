@@ -83,6 +83,8 @@ class LinkedList {
   }
 
   findNode(index) {
+    if (index === 'tail') { index = this.length - 1; }
+    if (index === 'head') { index = 0; }
     let currentNode = this.head;
     for (let i = 1; i <= index; i += 1) {
       if (currentNode === null) {
@@ -111,14 +113,3 @@ class LinkedList {
 module.exports = {
   LinkedList,
 };
-
-// let list = new LinkedList();
-// list.insert(0);
-// list.insert(1);
-// list.insert(2);
-// list.insert(3);
-// list.insert(4);
-// list.insert(5, 5);
-// console.log(list.delete(2));
-// console.log(list.length);
-// console.log(list.findNode(1));
